@@ -1,0 +1,80 @@
+{% extends "home/base.html" %}
+{% load static %}
+{# Load the tag library #}
+{% load bootstrap5 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% block content %}
+<style>
+  body {
+    height: 100%;
+  }
+
+  .form-signin {
+    max-width: 420px;
+    padding: 1rem;
+  }
+
+  .form-signin .form-floating:focus-within {
+    z-index: 2;
+  }
+
+  .form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+</style>
+</body>
+  <div class="container my-5">
+    <h2>Kanvassing</h2>
+    <button type="button" a href="{% url 'kanvass_create' kanvass.id %}">{{ kanvass.name }}</button>
+    {% bootstrap_messages %}
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Kanvass</th>
+        <th scope="col">Parent</th>
+        <th scope="col">Sponsor</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">End Date</th>
+      </tr>
+      </thead>
+      <tbody>
+        {% for kanvass in kanvass_list %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td><a href="{% url 'kanvass_details' kanvass.id %}">{{ kanvass.name }}</a></td>
+          <td>{{ kanvass.parent }}</td>
+          <td>{{ kanvass.sponsor }}</td>
+          <td>{{ kanvass.start_date }}</td>
+          <td>{{ kanvass.end_date }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div> 
+  {% regroup kanvass by parent as parent_list %}
+
+<ul>
+{% for parent in parent_list %}
+    <li>{{ parent.grouper }}
+    <ul>
+        {% for kanvass in parent.list %}
+          <li>{{ kanvass.id }}: {{ kanvass.name }}</li>
+        {% endfor %}
+    </ul>
+    </li>
+{% endfor %}
+</ul>
+</body>
+{% endblock %}

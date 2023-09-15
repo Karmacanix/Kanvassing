@@ -41,4 +41,6 @@ class CampaignDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['target'] = TargetAudience.objects.filter(campaign_id=self.object.id)
         print(context['target'])
+        context['child_campaigns'] = Campaign.get_all_children(self.object.pk) 
+        print(context['child_campaigns'])
         return context

@@ -22,5 +22,6 @@ urlpatterns = [
     path('campaign/', include('campaigns.urls')),
     path('expense/', include('expenses.urls')),
     path('goal/', include('goals.urls')),
+    path('kanvass/', include('kanvass.urls')),
     path('admin/', admin.site.urls),
 ]
